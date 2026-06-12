@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, Linkedin, Github, MessageCircle, Send, MapPin, Clock, Mail as MailIcon } from "lucide-react";
+import { usePortfolio } from "../store/PortfolioContext";
 
 const socials = [
   {
@@ -44,14 +45,33 @@ const socials = [
 const budgets = ["< $500", "$500 – $1,000", "$1,000 – $5,000", "$5,000 – $10,000", "$10,000+"];
 
 export function Contact() {
+  const { addMessage } = usePortfolio();
   const [form, setForm] = useState({ name: "", email: "", company: "", budget: "", details: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setForm({ name: "", email: "", company: "", budget: "", details: "" });
+    setSending(true);
+    setSendError("");
+    try {
+      await addMessage({
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        budget: form.budget || "Not specified",
+        details: form.details,
+      });
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+      setForm({ name: "", email: "", company: "", budget: "", details: "" });
+    } catch (err) {
+      console.error(`Failed to submit contact message: ${err}`);
+      setSendError("Something went wrong sending your message. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputStyle: React.CSSProperties = {
@@ -221,20 +241,27 @@ export function Contact() {
                 />
               </div>
 
+              {sendError && (
+                <div style={{
+                  background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)",
+                  borderRadius: "10px", padding: "10px 14px", color: "#F87171", fontSize: "13px", marginBottom: "14px",
+                }}>{sendError}</div>
+              )}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+                disabled={sending}
+                whileHover={{ scale: sending ? 1 : 1.02 }}
+                whileTap={{ scale: sending ? 1 : 0.97 }}
                 style={{
                   width: "100%", padding: "14px", borderRadius: "12px",
                   background: submitted ? "rgba(34,197,94,0.3)" : "linear-gradient(135deg, #3B82F6, #8B5CF6)",
                   border: submitted ? "1px solid rgba(34,197,94,0.4)" : "none",
-                  color: "white", fontSize: "15px", fontWeight: 700, cursor: "pointer",
+                  color: "white", fontSize: "15px", fontWeight: 700, cursor: sending ? "default" : "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                  boxShadow: "0 0 30px rgba(59,130,246,0.25)",
+                  boxShadow: "0 0 30px rgba(59,130,246,0.25)", opacity: sending ? 0.7 : 1,
                 }}
               >
-                {submitted ? "✓ Message Sent Successfully!" : (<><Send size={16} /> Send Message</>)}
+                {submitted ? "✓ Message Sent Successfully!" : sending ? "Sending…" : (<><Send size={16} /> Send Message</>)}
               </motion.button>
             </form>
           </motion.div>

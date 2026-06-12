@@ -1,87 +1,19 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Code2, Globe, Server, Database, Brain, Wrench, Cpu } from "lucide-react";
+import { usePortfolio } from "../store/PortfolioContext";
 
-const categories = [
-  {
-    id: "programming",
-    label: "Programming",
-    icon: Code2,
-    color: "#3B82F6",
-    skills: [
-      { name: "Python", level: 90 },
-      { name: "JavaScript", level: 75 },
-      { name: "TypeScript", level: 65 },
-      { name: "SQL", level: 80 },
-      { name: "Bash/Shell", level: 60 },
-    ],
-  },
-  {
-    id: "frontend",
-    label: "Frontend",
-    icon: Globe,
-    color: "#06B6D4",
-    skills: [
-      { name: "React", level: 75 },
-      { name: "Next.js", level: 65 },
-      { name: "HTML/CSS", level: 85 },
-      { name: "Tailwind CSS", level: 80 },
-      { name: "Streamlit", level: 88 },
-    ],
-  },
-  {
-    id: "backend",
-    label: "Backend",
-    icon: Server,
-    color: "#8B5CF6",
-    skills: [
-      { name: "FastAPI", level: 85 },
-      { name: "Django", level: 70 },
-      { name: "Flask", level: 80 },
-      { name: "REST APIs", level: 90 },
-      { name: "Firebase", level: 75 },
-    ],
-  },
-  {
-    id: "database",
-    label: "Database",
-    icon: Database,
-    color: "#10B981",
-    skills: [
-      { name: "PostgreSQL", level: 78 },
-      { name: "MongoDB", level: 70 },
-      { name: "Firebase Firestore", level: 80 },
-      { name: "Redis", level: 65 },
-      { name: "MySQL", level: 75 },
-    ],
-  },
-  {
-    id: "ai-ml",
-    label: "AI / ML",
-    icon: Brain,
-    color: "#EC4899",
-    skills: [
-      { name: "Machine Learning", level: 82 },
-      { name: "TensorFlow", level: 70 },
-      { name: "Scikit-learn", level: 85 },
-      { name: "Pandas / NumPy", level: 92 },
-      { name: "OpenAI API", level: 88 },
-    ],
-  },
-  {
-    id: "tools",
-    label: "Tools",
-    icon: Wrench,
-    color: "#F59E0B",
-    skills: [
-      { name: "Git / GitHub", level: 88 },
-      { name: "Docker", level: 65 },
-      { name: "Airflow", level: 70 },
-      { name: "Celery / Redis", level: 72 },
-      { name: "Linux / CLI", level: 78 },
-    ],
-  },
-];
+// Visual metadata (icon + color) keyed by category id. The editable labels and
+// skill lists come from the store; icon/color stay fixed per category.
+const categoryMeta: Record<string, { icon: any; color: string }> = {
+  programming: { icon: Code2, color: "#3B82F6" },
+  frontend: { icon: Globe, color: "#06B6D4" },
+  backend: { icon: Server, color: "#8B5CF6" },
+  database: { icon: Database, color: "#10B981" },
+  "ai-ml": { icon: Brain, color: "#EC4899" },
+  tools: { icon: Wrench, color: "#F59E0B" },
+};
+const fallbackMeta = { icon: Cpu, color: "#3B82F6" };
 
 function SkillBar({ name, level, color, delay }: { name: string; level: number; color: string; delay: number }) {
   return (
@@ -104,8 +36,15 @@ function SkillBar({ name, level, color, delay }: { name: string; level: number; 
 }
 
 export function Skills() {
-  const [activeTab, setActiveTab] = useState("programming");
-  const active = categories.find((c) => c.id === activeTab)!;
+  const { content } = usePortfolio();
+  const categories = content.skills.map((c) => ({
+    ...c,
+    ...(categoryMeta[c.id] ?? fallbackMeta),
+  }));
+  const [activeTab, setActiveTab] = useState(categories[0]?.id ?? "programming");
+  const active = categories.find((c) => c.id === activeTab) ?? categories[0];
+
+  if (!active) return null;
 
   return (
     <section style={{ padding: "100px 32px" }}>

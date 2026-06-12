@@ -1,12 +1,8 @@
 import { motion } from "motion/react";
 import { GraduationCap, Target, Code2, User } from "lucide-react";
+import { usePortfolio } from "../store/PortfolioContext";
 
-const stats = [
-  { value: "20+", label: "Projects Built", color: "#3B82F6" },
-  { value: "10+", label: "Technologies", color: "#8B5CF6" },
-  { value: "2+", label: "Years Learning", color: "#06B6D4" },
-  { value: "95%", label: "Problem Solving", color: "#22C55E" },
-];
+const statColors = ["#3B82F6", "#8B5CF6", "#06B6D4", "#22C55E"];
 
 const education = [
   {
@@ -28,6 +24,9 @@ const education = [
 ];
 
 export function About() {
+  const { content } = usePortfolio();
+  const a = content.about;
+  const stats = a.stats.map((s, i) => ({ ...s, color: statColors[i % statColors.length] }));
   return (
     <section style={{ padding: "100px 32px" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
@@ -68,8 +67,8 @@ export function About() {
               background: "linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1))",
             }}>
               <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
-                alt="Gaurav Sapkal"
+                src={a.avatar || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"}
+                alt={a.name}
                 style={{ width: "100%", height: "360px", objectFit: "cover", display: "block" }}
               />
               <div style={{
@@ -78,8 +77,8 @@ export function About() {
                 borderRadius: "14px", padding: "14px 18px",
                 border: "1px solid rgba(255,255,255,0.08)",
               }}>
-                <p style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700, fontSize: "17px", marginBottom: "2px" }}>Gaurav Sapkal</p>
-                <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px" }}>Python Dev · AI Builder · Data Engineer</p>
+                <p style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700, fontSize: "17px", marginBottom: "2px" }}>{a.name}</p>
+                <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px" }}>{a.roleLine}</p>
               </div>
             </div>
 
@@ -116,18 +115,18 @@ export function About() {
               borderRadius: "100px", padding: "6px 14px", marginBottom: "24px",
               color: "#3B82F6", fontSize: "12px", fontWeight: 600,
             }}>
-              <Code2 size={12} /> Python · AI · Data Science
+              <Code2 size={12} /> {a.badge}
             </div>
 
             <h3 style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700, fontSize: "28px", lineHeight: 1.3, marginBottom: "20px" }}>
-              Building Intelligent Systems That Drive Real Business Value
+              {a.heading}
             </h3>
 
             <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.8, marginBottom: "20px" }}>
-              I'm <strong style={{ color: "white" }}>Gaurav Sapkal</strong>, a Python Developer and AI Solutions Engineer passionate about automating the complex and making data speak. I specialize in turning raw ideas into working software — from AI chatbots to automated workflows.
+              {a.paragraph1}
             </p>
             <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.8, marginBottom: "36px" }}>
-              My mission is simple: <strong style={{ color: "white" }}>build technology that saves time and creates value.</strong> Whether you're a startup looking for a Python automation script or an enterprise needing a full data pipeline, I deliver with speed and precision.
+              {a.paragraph2}
             </p>
 
             {/* Career Mission */}
@@ -141,7 +140,7 @@ export function About() {
                 <span style={{ fontWeight: 600, fontSize: "14px", color: "rgba(255,255,255,0.9)" }}>Career Mission</span>
               </div>
               <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px", lineHeight: 1.7 }}>
-                "To leverage AI and Python to automate the mundane, unlock insights from data, and build software solutions that genuinely transform how businesses operate."
+                "{a.mission}"
               </p>
             </div>
 

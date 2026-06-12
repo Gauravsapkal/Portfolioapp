@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Lock } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -16,6 +17,7 @@ const scrollTo = (href: string) => {
 };
 
 export function Navbar() {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -80,6 +82,18 @@ export function Navbar() {
           onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 0 30px rgba(59,130,246,0.5)"; }}
           onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 0 20px rgba(59,130,246,0.3)"; }}
         >Hire Me</a>
+        <button
+          onClick={() => navigate("/admin")}
+          title="Admin Panel"
+          style={{
+            display: "flex", alignItems: "center", gap: "6px",
+            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)",
+            color: "rgba(255,255,255,0.7)", padding: "8px 14px", borderRadius: "10px",
+            fontSize: "13px", fontWeight: 600, cursor: "pointer", transition: "all 0.2s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.7)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; }}
+        ><Lock size={13} /> Admin</button>
       </div>
 
       <button
@@ -120,6 +134,15 @@ export function Navbar() {
                 fontSize: "15px", fontWeight: 600, textAlign: "center",
               }}
             >Hire Me</a>
+            <button
+              onClick={() => { setMobileOpen(false); navigate("/admin"); }}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)",
+                color: "rgba(255,255,255,0.8)", padding: "13px 20px", borderRadius: "10px",
+                fontSize: "15px", fontWeight: 600, cursor: "pointer",
+              }}
+            ><Lock size={15} /> Admin Panel</button>
           </motion.div>
         )}
       </AnimatePresence>

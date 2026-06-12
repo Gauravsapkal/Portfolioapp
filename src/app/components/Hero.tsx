@@ -1,16 +1,11 @@
 import { motion } from "motion/react";
 import { ArrowRight, Calendar, Code2, Brain, Database, Globe, Cpu, Zap, CheckCircle } from "lucide-react";
+import { usePortfolio } from "../store/PortfolioContext";
 
 const scrollTo = (href: string) => {
   const el = document.querySelector(href);
   if (el) el.scrollIntoView({ behavior: "smooth" });
 };
-
-const stats = [
-  { value: "20+", label: "Projects Completed" },
-  { value: "10+", label: "Technologies Used" },
-  { value: "100%", label: "Client Satisfaction" },
-];
 
 const floatingIcons = [
   { Icon: Code2, style: { top: "18%", left: "8%", animationDelay: "0s" } },
@@ -22,6 +17,9 @@ const floatingIcons = [
 ];
 
 export function Hero() {
+  const { content } = usePortfolio();
+  const h = content.hero;
+  const stats = h.stats;
   return (
     <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden", padding: "100px 32px 60px" }}>
       <style>{`
@@ -86,7 +84,7 @@ export function Hero() {
           }}
         >
           <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E", animation: "badge-pulse 2s ease-in-out infinite", display: "inline-block" }} />
-          Available for Freelance Work
+          {h.badge}
         </motion.div>
 
         {/* Headline */}
@@ -100,16 +98,15 @@ export function Hero() {
             letterSpacing: "-0.02em",
           }}
         >
-          <span style={{ color: "white" }}>I Build </span>
+          <span style={{ color: "white" }}>{h.titlePrefix}</span>
           <span style={{
             background: "linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #06B6D4 100%)",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          }}>AI-Powered Solutions,</span>
+          }}>{h.titleHighlight}</span>
           <br />
-          <span style={{ color: "white" }}>Python Automation</span>
-          <span style={{ color: "rgba(255,255,255,0.5)" }}> &amp; Data Systems</span>
+          <span style={{ color: "white" }}>{h.titleLine2}</span>
           <br />
-          <span style={{ color: "rgba(255,255,255,0.8)" }}>That Save Time.</span>
+          <span style={{ color: "rgba(255,255,255,0.8)" }}>{h.titleLine3}</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -119,7 +116,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           style={{ color: "rgba(255,255,255,0.6)", fontSize: "clamp(15px, 2.2vw, 20px)", lineHeight: 1.7, marginBottom: "48px", maxWidth: "640px", margin: "0 auto 48px" }}
         >
-          Helping startups, businesses, and entrepreneurs automate workflows, analyze data, and build intelligent software solutions.
+          {h.subtitle}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -141,7 +138,7 @@ export function Hero() {
               display: "flex", alignItems: "center", gap: "8px",
             }}
           >
-            Hire Me <ArrowRight size={16} />
+            {h.ctaPrimary} <ArrowRight size={16} />
           </motion.button>
 
           <motion.button
