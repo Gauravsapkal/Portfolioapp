@@ -1,7 +1,7 @@
 
-  # Portfolio app
+  # Portfolio - Gaurav Sapkal
 
-  This is a code bundle for Portfolio app. The original project is available at https://www.figma.com/design/DMK9Kz8Sv6CEm9677a2Kt3/Portfolio-app.
+  This is a code bundle for Portfolio - Gaurav Sapkal. The original project is available at https://www.figma.com/design/DMK9Kz8Sv6CEm9677a2Kt3/Portfolio---Gaurav-Sapkal.
 
   ## Running the code
 
