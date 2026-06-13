@@ -2,13 +2,13 @@ import { motion } from "motion/react";
 import { Download, Eye, FileText, Briefcase, GraduationCap } from "lucide-react";
 
 const experiences = [
-  { role: "Freelance Python Developer", company: "Self-Employed", period: "2023 – Present", desc: "Delivered automation scripts, web scrapers, and AI-powered tools for clients across industries." },
+  { role: "Freelance Python Developer", company: "Self-Employed", period: "2024 – Present", desc: "Delivered automation scripts, web scrapers, and AI-powered tools for clients across industries." },
   { role: "Data Science Intern", company: "Tech Startup", period: "2022 – 2023", desc: "Built data pipelines with Pandas and visualized insights using Matplotlib and Plotly." },
 ];
 
 const education = [
-  { degree: "Data Science Engineering", school: "Pursuing (Current)", period: "2023 – Present", icon: GraduationCap },
-  { degree: "Diploma in Computer Engineering", school: "Technical Institute", period: "2020 – 2023", icon: GraduationCap },
+  { degree: "Data Science Engineering", school: "Pursuing (Dy Patil Technical Campus Kolhapur)", period: "2024 – Present", icon: GraduationCap },
+  { degree: "Diploma in Computer Engineering", school: "Government Polytechnic Ambad", period: "2021 – 2024", icon: GraduationCap },
 ];
 
 const glassCard = {

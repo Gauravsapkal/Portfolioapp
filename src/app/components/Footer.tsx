@@ -16,9 +16,9 @@ const links = [
 
 const socials = [
   { href: "https://github.com/gauravsapkal", icon: Github, label: "GitHub" },
-  { href: "https://linkedin.com/in/gauravsapkal", icon: Linkedin, label: "LinkedIn" },
-  { href: "mailto:gaurav@example.com", icon: Mail, label: "Email" },
-  { href: "https://wa.me/91XXXXXXXXXX", icon: MessageCircle, label: "WhatsApp" },
+  { href: "https://www.linkedin.com/in/gaurav-sapkal-749463332/", icon: Linkedin, label: "LinkedIn" },
+  { href: "mailto:sapkalgaurav98@gmial.com", icon: Mail, label: "Email" },
+  { href: "https://wa.me/918806136681", icon: MessageCircle, label: "WhatsApp" },
 ];
 
 export function Footer() {
